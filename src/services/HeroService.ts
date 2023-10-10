@@ -36,6 +36,10 @@ export class HeroService {
 		this.data.set(hero.id, hero);
 	}
 
+	async removeHero(id: number): Promise<void> {
+		this.data.delete(id);
+	}
+
 	private newId(): number {
 		return this.data.size > 0 ? Math.max(...this.data.keys()) + 1 : 11;
 	}

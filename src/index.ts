@@ -24,6 +24,12 @@ app.put('/heroes', async (req, res) => {
 	res.sendStatus(200);
 });
 
+app.delete('/heroes/:id', async (req, res) => {
+	const id = Number(req.params.id);
+	await heroService.removeHero(id);
+	res.sendStatus(200);
+});
+
 app.listen(port, () => {
 	console.log(`Listening on port ${port}.`);
 });
