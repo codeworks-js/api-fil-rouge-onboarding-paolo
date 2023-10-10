@@ -18,6 +18,12 @@ app.get('/heroes', async (_, res) => {
 	res.json(await heroService.listHeroes());
 });
 
+app.put('/heroes', async (req, res) => {
+	const hero = req.body;
+	await heroService.modifyHero(hero);
+	res.sendStatus(200);
+});
+
 app.listen(port, () => {
 	console.log(`Listening on port ${port}.`);
 });
