@@ -32,6 +32,10 @@ export class HeroService {
 		return Array.from(this.data.values());
 	}
 
+	async modifyHero(hero: Hero): Promise<void> {
+		this.data.set(hero.id, hero);
+	}
+
 	private newId(): number {
 		return this.data.size > 0 ? Math.max(...this.data.keys()) + 1 : 11;
 	}
