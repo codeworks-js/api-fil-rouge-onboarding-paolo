@@ -1,0 +1,19 @@
+{
+  "name": "api-fil-rouge-onboarding-paolo",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeworks-js/api-fil-rouge-onboarding-paolo.git"
+  },
+  "author": "Paolo Manaois",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeworks-js/api-fil-rouge-onboarding-paolo/issues"
+  },
+  "homepage": "https://github.com/codeworks-js/api-fil-rouge-onboarding-paolo#readme"
+}
