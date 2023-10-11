@@ -18,6 +18,11 @@ app.get('/heroes', async (_, res) => {
 	res.json(await heroService.listHeroes());
 });
 
+app.get('/heroes/search', async (req, res) => {
+	const term = String(req.query.term);
+	res.json(await heroService.searchHeroes(term));
+});
+
 app.put('/heroes', async (req, res) => {
 	const hero = req.body;
 	await heroService.modifyHero(hero);
