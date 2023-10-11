@@ -14,6 +14,17 @@ app.post('/heroes', async (req, res) => {
 	res.status(201).json(hero);
 });
 
+app.get('/heroes/:id', async (req, res) => {
+	const id = Number(req.params.id);
+	const hero = await heroService.getHero(id);
+
+	if (hero === null) {
+		res.sendStatus(404);
+		return;
+	}
+	res.json(hero);
+});
+
 app.get('/heroes', async (_, res) => {
 	res.json(await heroService.listHeroes());
 });

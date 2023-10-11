@@ -28,6 +28,10 @@ export class HeroService {
 		return hero;
 	}
 
+	async getHero(id: number): Promise<Hero | null> {
+		return this.data.get(id) || null;
+	}
+
 	async listHeroes(): Promise<Hero[]> {
 		return Array.from(this.data.values());
 	}
