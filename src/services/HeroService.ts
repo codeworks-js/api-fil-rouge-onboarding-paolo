@@ -28,6 +28,10 @@ export class HeroService {
 		return hero;
 	}
 
+	async getHero(id: number): Promise<Hero | null> {
+		return this.data.get(id) || null;
+	}
+
 	async listHeroes(): Promise<Hero[]> {
 		return Array.from(this.data.values());
 	}
@@ -38,6 +42,14 @@ export class HeroService {
 
 	async removeHero(id: number): Promise<void> {
 		this.data.delete(id);
+	}
+
+	async searchHeroes(term: string): Promise<Hero[]> {
+		const completeHeroList = Array.from(this.data.values());
+		const matchingHeroes = completeHeroList.filter((hero) =>
+			hero.name.toLowerCase().includes(term.toLowerCase()),
+		);
+		return matchingHeroes;
 	}
 
 	private newId(): number {
