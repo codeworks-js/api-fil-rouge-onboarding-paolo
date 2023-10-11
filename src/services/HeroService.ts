@@ -40,6 +40,14 @@ export class HeroService {
 		this.data.delete(id);
 	}
 
+	async searchHeroes(term: string): Promise<Hero[]> {
+		const completeHeroList = Array.from(this.data.values());
+		const matchingHeroes = completeHeroList.filter((hero) =>
+			hero.name.toLowerCase().includes(term.toLowerCase()),
+		);
+		return matchingHeroes;
+	}
+
 	private newId(): number {
 		return this.data.size > 0 ? Math.max(...this.data.keys()) + 1 : 11;
 	}
