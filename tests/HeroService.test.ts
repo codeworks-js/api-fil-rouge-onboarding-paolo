@@ -1,4 +1,4 @@
-import { InMemoryHeroes } from '../src/data-access/Heroes';
+import { InMemoryHeroes } from '../src/data-access/InMemoryHeroes';
 import { HeroService } from '../src/services/HeroService';
 
 describe('HeroService', () => {

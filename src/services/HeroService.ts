@@ -1,8 +1,8 @@
-import { InMemoryHeroes } from '../data-access/Heroes';
+import { Heroes } from '../data-access/Heroes';
 import { Hero } from '../types/Hero';
 
 export class HeroService {
-	constructor(private readonly heroes: InMemoryHeroes) {}
+	constructor(private readonly heroes: Heroes) {}
 
 	async addHero(name: string): Promise<Hero> {
 		return this.heroes.addHero(name);
