@@ -1,10 +1,12 @@
 import BodyParser from 'body-parser';
 import Express from 'express';
+import { InMemoryHeroes } from './data-access/Heroes';
 import { HeroService } from './services/HeroService';
 
 const app = Express();
 const port = process.env.PORT || 3000;
-const heroService = new HeroService();
+const heroes = new InMemoryHeroes();
+const heroService = new HeroService(heroes);
 
 app.use(BodyParser.json());
 

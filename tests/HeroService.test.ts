@@ -1,10 +1,12 @@
+import { InMemoryHeroes } from '../src/data-access/Heroes';
 import { HeroService } from '../src/services/HeroService';
 
 describe('HeroService', () => {
 	let heroService: HeroService;
+	const heroes = new InMemoryHeroes();
 
 	beforeEach(() => {
-		heroService = new HeroService();
+		heroService = new HeroService(heroes);
 	});
 
 	describe('list heroes', () => {
