@@ -1,9 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
-import Express from 'express';
+import Express, { NextFunction, Request, Response } from 'express';
 import { PrismaHeroes } from './data-access/PrismaHeroes';
 import { HeroService } from './services/HeroService';
+import { validateAddHero } from './validators/add-hero';
+import { validateGetHero } from './validators/get-hero';
+import { validateRemoveHero } from './validators/remove-hero';
+import { validateUpdateHero } from './validators/update-hero';
 
 const app = Express();
 const port = process.env.PORT || 3000;
@@ -12,11 +16,17 @@ const prisma = new PrismaClient();
 const heroes = new PrismaHeroes(prisma);
 const heroService = new HeroService(heroes);
 
-app.use(BodyParser.json());
 app.use(Cors({ origin: true }));
+app.use(BodyParser.json());
 
 app.post('/heroes', async (req, res) => {
-	const { name } = req.body;
+	const payload = req.body;
+	if (!validateAddHero(payload)) {
+		res.status(400).json({ message: 'Invalid payload.' });
+		return;
+	}
+
+	const { name } = payload;
 	const hero = await heroService.addHero(name);
 	res.status(201).json(hero);
 });
@@ -27,8 +37,12 @@ app.get('/heroes/search', async (req, res) => {
 });
 
 app.get('/heroes/:id', async (req, res) => {
-	const id = Number(req.params.id);
-	const hero = await heroService.getHero(id);
+	const params = req.params;
+	if (!validateGetHero(params)) {
+		res.status(400).json({ message: 'Invalid payload.' });
+		return;
+	}
+	const hero = await heroService.getHero(params.id);
 
 	if (hero === null) {
 		res.sendStatus(404);
@@ -42,15 +56,28 @@ app.get('/heroes', async (_, res) => {
 });
 
 app.put('/heroes', async (req, res) => {
-	const hero = req.body;
-	await heroService.modifyHero(hero);
+	const payload = req.body;
+	if (!validateUpdateHero(payload)) {
+		res.status(400).json({ message: 'Invalid payload.' });
+		return;
+	}
+	await heroService.modifyHero(payload);
 	res.sendStatus(200);
 });
 
 app.delete('/heroes/:id', async (req, res) => {
-	const id = Number(req.params.id);
-	await heroService.removeHero(id);
+	const params = req.params;
+	if (!validateRemoveHero(params)) {
+		res.status(400).json({ message: 'Invalid payload.' });
+		return;
+	}
+	await heroService.removeHero(params.id);
 	res.sendStatus(200);
+});
+
+app.use((err: Error, _: Request, res: Response, __: NextFunction) => {
+	console.error(err);
+	res.status(500).json({ message: 'Something went wrong.' });
 });
 
 app.listen(port, () => {
