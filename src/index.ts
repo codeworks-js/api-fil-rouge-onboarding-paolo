@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
-import Express from 'express';
+import Express, { NextFunction, Request, Response } from 'express';
 import { PrismaHeroes } from './data-access/PrismaHeroes';
 import { HeroService } from './services/HeroService';
 import { validateAddHero } from './validators/add-hero';
@@ -73,6 +73,11 @@ app.delete('/heroes/:id', async (req, res) => {
 	}
 	await heroService.removeHero(params.id);
 	res.sendStatus(200);
+});
+
+app.use((err: Error, _: Request, res: Response, __: NextFunction) => {
+	console.error(err);
+	res.status(500).json({ message: 'Something went wrong.' });
 });
 
 app.listen(port, () => {
