@@ -1,12 +1,19 @@
+import { PrismaClient } from '@prisma/client';
 import BodyParser from 'body-parser';
+import Cors from 'cors';
 import Express from 'express';
+import { PrismaHeroes } from './data-access/PrismaHeroes';
 import { HeroService } from './services/HeroService';
 
 const app = Express();
 const port = process.env.PORT || 3000;
-const heroService = new HeroService();
+
+const prisma = new PrismaClient();
+const heroes = new PrismaHeroes(prisma);
+const heroService = new HeroService(heroes);
 
 app.use(BodyParser.json());
+app.use(Cors({ origin: true }));
 
 app.post('/heroes', async (req, res) => {
 	const { name } = req.body;

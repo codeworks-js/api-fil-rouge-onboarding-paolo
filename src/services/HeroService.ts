@@ -1,58 +1,30 @@
+import { Heroes } from '../data-access/Heroes';
 import { Hero } from '../types/Hero';
 
-const allHeroes: Hero[] = [
-	{ id: 12, name: 'Dr. Nice' },
-	{ id: 13, name: 'Bombasto' },
-	{ id: 14, name: 'Celeritas' },
-	{ id: 15, name: 'Magneta' },
-	{ id: 16, name: 'RubberMan' },
-	{ id: 17, name: 'Dynama' },
-	{ id: 18, name: 'Dr. IQ' },
-	{ id: 19, name: 'Magma' },
-	{ id: 20, name: 'Tornado' },
-];
-
 export class HeroService {
-	private data = new Map<number, Hero>(
-		allHeroes.map((hero) => [hero.id, hero]),
-	);
+	constructor(private readonly heroes: Heroes) {}
 
 	async addHero(name: string): Promise<Hero> {
-		const hero: Hero = {
-			id: this.newId(),
-			name,
-		};
-
-		this.data.set(hero.id, hero);
-
-		return hero;
+		return this.heroes.addHero(name);
 	}
 
 	async getHero(id: number): Promise<Hero | null> {
-		return this.data.get(id) || null;
+		return this.heroes.getHero(id);
 	}
 
 	async listHeroes(): Promise<Hero[]> {
-		return Array.from(this.data.values());
+		return this.heroes.listHeroes();
 	}
 
 	async modifyHero(hero: Hero): Promise<void> {
-		this.data.set(hero.id, hero);
+		await this.heroes.modifyHero(hero);
 	}
 
 	async removeHero(id: number): Promise<void> {
-		this.data.delete(id);
+		await this.heroes.removeHero(id);
 	}
 
 	async searchHeroes(term: string): Promise<Hero[]> {
-		const completeHeroList = Array.from(this.data.values());
-		const matchingHeroes = completeHeroList.filter((hero) =>
-			hero.name.toLowerCase().includes(term.toLowerCase()),
-		);
-		return matchingHeroes;
-	}
-
-	private newId(): number {
-		return this.data.size > 0 ? Math.max(...this.data.keys()) + 1 : 11;
+		return this.heroes.searchHeroes(term);
 	}
 }
