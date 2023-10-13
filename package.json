@@ -43,7 +43,8 @@
 	"dependencies": {
 		"@prisma/client": "^5.4.2",
 		"cors": "^2.8.5",
-		"express": "^4.18.2"
+		"express": "^4.18.2",
+		"zod": "^3.22.4"
 	},
 	"prisma": {
 		"seed": "ts-node prisma/seed.ts"
