@@ -5,8 +5,6 @@ const schema = z.object({
 	name: z.string().min(1),
 });
 
-export function validateUpdateHero(
-	payload: unknown,
-): payload is z.infer<typeof schema> {
-	return schema.safeParse(payload).success;
+export function validateUpdateHero(payload: unknown): z.infer<typeof schema> {
+	return schema.parse(payload);
 }
